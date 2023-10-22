@@ -6,6 +6,7 @@ const QotdDB = require("../../schemas/qotdDB");
 const SafeWordDB = require("../../schemas/safeWordDB");
 const bumpDB = require("../../schemas/bumpDB");
 const boostDB = require("../../schemas/boostDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -36,7 +37,10 @@ module.exports = {
             .addBooleanOption(opt => opt.setName("set").setDescription("Set bump buddy to on or off").setRequired(true)))
         .addSubcommand(sub => sub.setName("boost")
             .setDescription("Set up boost message")
-            .addChannelOption(opt => opt.setName("channel").setDescription("Channel you want your boost message sent to.").setRequired(true))),
+            .addChannelOption(opt => opt.setName("channel").setDescription("Channel you want your boost message sent to.").setRequired(true)))
+        .addSubcommand(sub => sub.setName("color")
+            .setDescription("Set embed color")
+            .addStringOption(opt => opt.setName("color").setDescription("Set embed color, MUST BE IN HEX FORMAT").setRequired(true))),
 
     /**
      * 
@@ -293,6 +297,35 @@ module.exports = {
                 interaction.reply({ content: `You have successfully saved your boost channel!`, ephemeral: true });
 
             }
+
+                break;
+
+            case "color": {
+
+                const color = options.getString("color");
+    
+                let data = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+                if (data) {
+    
+                    data.Color = color;
+                    data.save();
+    
+                } else if (!data) {
+    
+                    data = new colorDB({
+                        Guild: guild.id,
+                        Color: color,
+                    });
+    
+                    await data.save();
+    
+                }
+    
+                interaction.reply({ content: `Your embed color setup info has been saved!`, ephemeral: true });
+    
+            }
+    
+                break;
 
         }
 

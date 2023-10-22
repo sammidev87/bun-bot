@@ -10,6 +10,7 @@ const ms = require("ms");
 const { token, mongoDbUrl } = process.env;
 const emojis = require("../emojis.json");
 const configuration = require("../config.json");
+const colorDB = require("./schemas/colorDB");
 
 //Create new client
 const client = new Client({
