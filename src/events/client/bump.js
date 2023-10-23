@@ -16,7 +16,7 @@ module.exports = {
         const { author, channel, interaction, guild } = message;
         const bot = author.id;
         const { color } = client;
-        const colorData = colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         const sleep = async (ms) => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
