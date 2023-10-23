@@ -15,7 +15,6 @@ module.exports = {
     async execute(client) {
 
         const { user, color } = client;
-        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         //Bot Login
         console.log(`${user.tag} is online!`);
@@ -36,6 +35,7 @@ module.exports = {
         let Guilds = client.guilds.cache.map(guild => guild.id);
         Guilds.forEach(async guild => {
 
+            const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
             const data = await QotdDB.findOne({ Guild: guild }).catch(err => { });
             if (!data) return;
             if (data.Channel) {
