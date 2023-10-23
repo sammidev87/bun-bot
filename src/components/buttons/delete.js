@@ -2,6 +2,7 @@ const { Client, ChatInputCommandInteraction, EmbedBuilder } = require("discord.j
 const { createTranscript } = require("discord-html-transcripts");
 const TicketChannelDB = require("../../schemas/ticketChannel");
 const TicketDB = require("../../schemas/ticketDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: {
@@ -16,6 +17,7 @@ module.exports = {
 
         const { guild, channel, member } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         let channelData = await TicketChannelDB.findOne({ GuildID: guild.id }).catch(err => console.error(err));
         if (!channelData) return interaction.reply({ content: `You don't have the ticket logs set up yet! You can do so by using \`/ticket log-channel\`!`, ephemeral: true });
@@ -49,7 +51,7 @@ module.exports = {
         Channel.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle(`Closed Ticket`)
                     .setDescription(`${desc}`)
                     .setFields(

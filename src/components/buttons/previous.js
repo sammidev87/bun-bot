@@ -1,6 +1,7 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 const EconomyDB = require("../../schemas/economyDB");
 const ShopDB = require("../../schemas/shopDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: {
@@ -15,6 +16,7 @@ module.exports = {
 
         const { guild, member } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const data = await EconomyDB.findOne({ Guild: guild.id, User: member.id }).catch(err => console.error(err));
         if (!data) return interaction.reply({ content: `You have no Balance data yet!`, ephemeral: true });
@@ -52,7 +54,7 @@ module.exports = {
                 });
 
                 const Embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle(`Shop`)
                     .setDescription(list.toString())
                     .setFooter({ text: `Page ${data.ShopPage} of ${countPages}` })
@@ -101,7 +103,7 @@ module.exports = {
                 });
 
                 const Embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle(`Shop`)
                     .setDescription(list.toString())
                     .setFooter({ text: `Page ${data.ShopPage} of ${countPages}` })

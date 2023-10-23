@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const PollDB = require("../../schemas/pollDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: {
@@ -14,6 +15,7 @@ module.exports = {
 
         const { guild, user, message } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const Member = guild.members.cache.get(user.id);
 
@@ -38,7 +40,7 @@ module.exports = {
                 ${answers}` ];
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Poll Ended")
             .setDescription(`${desc}`)
             .setFields(
