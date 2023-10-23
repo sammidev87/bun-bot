@@ -1,5 +1,6 @@
 const { Client, ContextMenuCommandInteraction, ContextMenuCommandBuilder, ApplicationCommandType, EmbedBuilder } = require("discord.js");
 const translate = require("@iamtraction/google-translate");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
@@ -18,9 +19,10 @@ module.exports = {
         const query = await channel.messages.fetch({ message: targetId });
         const content = query.content;
         const translation = await translate(query, { to: "en" });
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Translator")
             .setDescription(`What you requested to be translated:`)
             .setFields(

@@ -8,6 +8,7 @@ const economyDB = require("../../schemas/economyDB");
 const warnDB = require("../../schemas/warnDB");
 const LevelsDB = require("../../schemas/levelsDB");
 const EconomyDB = require("../../schemas/economyDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -39,6 +40,7 @@ module.exports = {
 
         const { guild, member, options } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
@@ -70,7 +72,7 @@ module.exports = {
                 findWarnChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Warning!")
                             .setDescription(`${user} has been warned by ${member} for \`${reason}\`. This is their ${data.WarnAmount} warning.`)
                             .setFooter({ text: "Warn by Bun Bot" })
@@ -90,7 +92,7 @@ module.exports = {
                     findWarnChannel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Banned!")
                                 .setDescription(`${user} has been warned for the 4th time and has been banned from the server.`)
                                 .setFooter({ text: "Warn by Bun Bot" })
@@ -102,7 +104,7 @@ module.exports = {
                     return interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Banned!")
                                 .setDescription(`${user} has been warned for the 4th time and has been banned from the server.`)
                                 .setFooter({ text: "Warn by Bun Bot" })
@@ -115,7 +117,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Warned!")
                                 .setDescription(`${user} has been warned.`)
                                 .setFooter({ text: "Warn by Bun Bot" })
@@ -140,7 +142,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Warn Info")
                             .setDescription(`User: <@${data.Member}>\nWarns: ${data.WarnAmount}`)
                             .setFooter({ text: "Warn by Bun Bot" })
@@ -175,7 +177,7 @@ module.exports = {
                 findKickChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Kicked!")
                             .setDescription(`${user} has been kicked by ${member} for \`${reason}\``)
                             .setFooter({ text: "Kick by Bun Bot" })
@@ -188,7 +190,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Kicked!")
                             .setDescription(`${user} has been kicked.`)
                             .setFooter({ text: "Kick by Bun Bot" })
@@ -223,7 +225,7 @@ module.exports = {
                 findBanChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Banned!")
                             .setDescription(`${user} has been Banned by ${member} for \`${reason}\``)
                             .setFooter({ text: "Ban by Bun Bot" })
@@ -236,7 +238,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Banned!")
                             .setDescription(`${user} has been Banned.`)
                             .setFooter({ text: "Ban by Bun Bot" })

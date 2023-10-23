@@ -1,4 +1,5 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,6 +17,7 @@ module.exports = {
 
         const { options, channel, member } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const amount = options.getNumber("amount");
         if (amount >= 101) return interaction.reply({ content: `You can only delete up to 100 messages at a time!`, ephemeral: true });
@@ -25,7 +27,7 @@ module.exports = {
 
         const Embed = new EmbedBuilder()
             .setAuthor({ name: member.user.username, iconURL: member.user.displayAvatarURL() })
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Clear Messages")
             .setDescription(`✅ | Successfully deleted ${amount} messages!`)
             .setFooter({ text: "Clear Messages by Bun Bot" });

@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const LevelsDB = require("../../schemas/levelsDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
 
@@ -18,6 +19,7 @@ module.exports = {
 
         const { guild, member, options } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const user = options.getUser("user");
         const level = options.getNumber("level");
@@ -31,7 +33,7 @@ module.exports = {
         await data.save();
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Give Level")
             .setDescription(`You have successfully given ${user} level ${level}!`)
             .setFooter({ text: `Levels by Bun Bot` })

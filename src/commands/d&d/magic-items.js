@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const MagicItemsDB = require("../../schemas/magicItemsDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -16,6 +17,7 @@ module.exports = {
 
         const { options, guild } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const name = options.getString("name");
 
@@ -31,7 +33,7 @@ module.exports = {
         `];
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Magic Item:")
             .setDescription(`${desc}`)
             .setFooter({ text: "Magic Items by Bun Bot" })

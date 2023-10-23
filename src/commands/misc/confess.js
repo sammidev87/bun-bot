@@ -1,6 +1,7 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ChannelType } = require("discord.js");
 const ConfessionDB = require("../../schemas/confessionDB");
 const ConfessionReplyDB = require("../../schemas/confessionReplyDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,6 +24,7 @@ module.exports = {
 
         const { options, guild, member } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
@@ -44,7 +46,7 @@ module.exports = {
                     const Message = await channel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle(`Confession ${count}`)
                                 .setDescription(`${confession}`)
                                 .setFooter({ text: "Confessions by Bun Bot" })
@@ -78,7 +80,7 @@ module.exports = {
                     const Message = await channel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle(`Confession #${count}`)
                                 .setDescription(`${confession}`)
                                 .setFooter({ text: "Confessions by Bun Bot" })
@@ -103,7 +105,7 @@ module.exports = {
                     logChannel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Confession Log")
                                 .setDescription(`Confession has been sent:`)
                                 .setFields(
@@ -169,7 +171,7 @@ module.exports = {
                         channel.send({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(color)
+                                    .setColor(colorData.Color || color)
                                     .setTitle(`Reply #${count}`)
                                     .setDescription(`${reply}`)
                                     .setFooter({ text: "Confessions by Bun Bot" })
@@ -189,7 +191,7 @@ module.exports = {
                         logChannel.send({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(color)
+                                    .setColor(colorData.Color || color)
                                     .setTitle("Confession Log")
                                     .setDescription(`Reply has been sent:`)
                                     .setFields(
@@ -234,7 +236,7 @@ module.exports = {
                     channel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle(`Reply #${count}`)
                                 .setDescription(`${reply}`)
                                 .setFooter({ text: "Confessions by Bun Bot" })
@@ -249,7 +251,7 @@ module.exports = {
                         logChannel.send({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(color)
+                                    .setColor(colorData.Color || color)
                                     .setTitle("Confession Log")
                                     .setDescription(`Reply has been sent:`)
                                     .setFields(

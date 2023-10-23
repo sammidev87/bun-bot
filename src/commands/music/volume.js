@@ -1,4 +1,5 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,6 +16,7 @@ module.exports = {
 
         const { options, member, guild } = interaction;
         const { distube, color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         const voiceChannel = member.voice.channel;
         if (!voiceChannel) return interaction.reply({ content: `You must be in a vc to use this command!`, ephemeral: true });
         if (!member.voice.channelId == guild.members.me.voice.channelId) return interaction.reply({ content: `I am already being used in another channel, you must be in the same channel as me to use this command!`, ephemeral: true });
@@ -29,7 +31,7 @@ module.exports = {
             interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(color)
+                        .setColor(colorData.Color || color)
                         .setTitle("Volume")
                         .setDescription(`Volume is now set to **${volume}**`)
                         .setFooter({ text: "Music by Bun Bot" })

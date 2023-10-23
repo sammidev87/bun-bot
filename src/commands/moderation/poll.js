@@ -1,4 +1,5 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -21,6 +22,7 @@ module.exports = {
 
         const { options } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const question = options.getString("question");
         const option1 = options.getString("option1");
@@ -30,7 +32,7 @@ module.exports = {
         const role = options.getRole("role") || ``;
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Poll:")
             .setDescription(`**${question}**`)
             .addFields(

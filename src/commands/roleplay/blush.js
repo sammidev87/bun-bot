@@ -1,4 +1,5 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const colorDB = require("../../schemas/colorDB");
 
 count = 0;
 
@@ -18,6 +19,7 @@ module.exports = {
 
         const { member, options } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const Text = options.getString("text");
         const Mention = options.getUser("user");
@@ -54,7 +56,7 @@ module.exports = {
         const image = gifs[ count ];
 
         const embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Blush")
             .setDescription(`${member} blushes${pingText}!`)
             .setImage(image)

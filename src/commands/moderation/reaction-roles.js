@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("discord.js");
 const ReactionRolesDB = require("../../schemas/reactionRolesDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -32,6 +33,7 @@ module.exports = {
 
         const { options, guild, member, channel } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
@@ -164,7 +166,7 @@ module.exports = {
                     });
 
                     const panelEmbed = new EmbedBuilder()
-                        .setColor(color)
+                        .setColor(colorData.Color || color)
                         .setTitle(`${panel}`)
                         .setDescription(`React with the corresponding emoji to recieve the role you want.\n\n${roleAndEmoji.join(` \n`)}`)
                         .setFooter({ text: "Reaction Roles by Bun Bot" })

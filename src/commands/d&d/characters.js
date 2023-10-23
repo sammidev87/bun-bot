@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const CharactersDB = require("../../schemas/charactersDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -50,6 +51,7 @@ module.exports = {
 
         const { options, guild, member } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
@@ -92,7 +94,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle(`Character Created!`)
                             .setDescription(`Your character ${name} has been created!`)
                             .setFooter({ text: "Character Creation by Bun Bot" })
@@ -116,7 +118,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle(`Character Deleted!`)
                             .setDescription(`Your character ${name} has been deleted!`)
                             .setFooter({ text: "Character Creation by Bun Bot" })
@@ -163,7 +165,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle(`Character Edited!`)
                             .setDescription(`Your character ${name} has been edited!`)
                             .addFields(
@@ -247,7 +249,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle(`Character Info`)
                             .setDescription(`Your character ${name} info:`)
                             .addFields(
@@ -321,7 +323,7 @@ module.exports = {
                 const data = await CharactersDB.find({ GuildID: guild.id, MemberID: member.id }).sort({ Name: -1, Avatar: -1, Proxy: -1 }).catch(err => console.error(err));
 
                 const embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle("Character List")
                     .setDescription("Here is a list of your current characters in this server:")
                     .setFooter({ text: "Character Creation by Bun Bot" })

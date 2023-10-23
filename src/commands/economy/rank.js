@@ -1,6 +1,7 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, AttachmentBuilder } = require("discord.js");
 const LevelsDB = require("../../schemas/levelsDB");
 const Canvacord = require("canvacord");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -17,6 +18,7 @@ module.exports = {
 
         const { options, user, guild } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const Member = options.getMember("user") || user;
         const member = guild.members.cache.get(Member.id);
@@ -60,7 +62,7 @@ module.exports = {
         const Card = await rank.build().catch(err => console.log(err));
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle(`${member.user.username}'s Rank Card:`)
             .setImage("attachment://rank.png")
             .setFooter({ text: "Leveling System by Bun Bot" });

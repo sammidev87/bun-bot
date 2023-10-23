@@ -1,4 +1,5 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,9 +14,10 @@ module.exports = {
     async execute(interaction, client) {
 
         const { ws, color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("Ping:")
             .setDescription(`The current latency is: \`${ws.ping} ms\``)
             .setFooter({ text: `Ping by Bun Bot` })

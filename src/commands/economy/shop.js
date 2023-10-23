@@ -1,6 +1,7 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js");
 const EconomyDB = require("../../schemas/economyDB");
 const ShopDB = require("../../schemas/shopDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -24,6 +25,7 @@ module.exports = {
 
         const { options, member, guild } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const user = options.getUser("user") || member;
 
@@ -56,7 +58,7 @@ module.exports = {
                 });
 
                 const Embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle(`${guild.name}'s Shop`)
                     .setDescription(`buy an item by using \`/shop buy item: <item name>\`\n\n${firstList.toString()}`)
                     .setFooter({ text: `Page 1 of ${countPages}` })
@@ -125,7 +127,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Buy")
                                 .setDescription(`Your item:\nName: ${item.ItemName}\nDescription: ${item.ItemDescription}\nPrice: ${item.ItemPrice}\nRole Reward: <@&${item.ItemRole}>\n has been added to your inventory!`)
                                 .setFooter({ text: "Shop by Bun Bot" })
@@ -163,7 +165,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Use")
                                 .setDescription(`You have used ${itemName}`)
                                 .setFooter({ text: "Shop by Bun Bot" })
@@ -181,7 +183,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Use")
                                 .setDescription(`${item.ItemReply}`)
                                 .setFooter({ text: "Shop by Bun Bot" })

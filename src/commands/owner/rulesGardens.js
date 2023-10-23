@@ -1,4 +1,5 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,6 +20,7 @@ module.exports = {
 
         const { options } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
@@ -40,7 +42,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle(`Little Rules`)
                     .setDescription(`${desc}`)
                     .setFooter({ text: "Rules by Bun Bot" })
@@ -89,7 +91,7 @@ module.exports = {
         `];
 
                 const Embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle("Poll")
                     .setDescription(`${desc}`)
                     .setImage(`https://ucarecdn.com/a12de301-5bf2-44ef-a32c-8a456ad40054/IMG_5905.jpg`)

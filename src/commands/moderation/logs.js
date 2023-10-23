@@ -3,6 +3,7 @@ const WarnChannelDB = require("../../schemas/warnChannelDB");
 const KickChannelDB = require("../../schemas/kickChannelDB");
 const BanChannelDB = require("../../schemas/banChannelDB");
 const TicketChannelDB = require("../../schemas/ticketChannel");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -31,6 +32,7 @@ module.exports = {
 
         const { guild, options } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
@@ -56,7 +58,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Warn Log Channel")
                             .setDescription(`Your warn log channel ${channel} has been saved!`)
                             .setFooter({ text: "Warn by Bun Bot" })
@@ -90,7 +92,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Kick Log Channel")
                             .setDescription(`Your kick log channel ${channel} has been saved!`)
                             .setFooter({ text: "Kick by Bun Bot" })
@@ -124,7 +126,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Ban Log Channel")
                             .setDescription(`Your ban log channel ${channel} has been saved!`)
                             .setFooter({ text: "Ban by Bun Bot" })
@@ -159,7 +161,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Ticket Log Channel")
                             .setDescription(`Your channel ${Channel} has been saved!`)
                             .setFooter({ text: "Ticket System by Bun Bot" })

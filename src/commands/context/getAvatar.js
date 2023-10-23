@@ -1,4 +1,5 @@
 const { Client, ContextMenuCommandInteraction, ContextMenuCommandBuilder, ApplicationCommandType, EmbedBuilder } = require("discord.js");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
@@ -15,9 +16,10 @@ module.exports = {
         const { color, users } = client;
         const { targetId } = interaction;
         const member = await users.fetch(targetId);
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         const Embed = new EmbedBuilder()
-            .setColor(color)
+            .setColor(colorData.Color || color)
             .setTitle("User Avatar")
             .setDescription(`${member.username}'s Avatar:`)
             .setImage(`${member.displayAvatarURL()}`)

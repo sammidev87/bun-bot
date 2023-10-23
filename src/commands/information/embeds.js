@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const EmbedDB = require("../../schemas/embedDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -38,6 +39,7 @@ module.exports = {
 
         const { options, user, member, guild } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
@@ -86,7 +88,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle(`${title}`)
                     .setDescription(desc)
                     .setImage(image)
@@ -113,7 +115,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle(`Embed List`)
                     .setDescription(filteredList)
                     .setFooter({ text: "Embeds by Bun Bot" })
@@ -155,7 +157,7 @@ module.exports = {
                         embeds: [
                             new EmbedBuilder()
                                 .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle(title)
                                 .setDescription(desc)
                                 .setImage(image)
@@ -171,7 +173,7 @@ module.exports = {
                         embeds: [
                             new EmbedBuilder()
                                 .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle(title)
                                 .setDescription(desc)
                                 .setFooter({ text: "Embeds by Bun Bot" })

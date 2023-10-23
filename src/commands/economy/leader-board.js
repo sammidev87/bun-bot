@@ -1,6 +1,7 @@
 const { Client, ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } = require("discord.js");
 const LevelsDB = require("../../schemas/levelsDB");
 const EconomyDB = require("../../schemas/economyDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -22,13 +23,14 @@ module.exports = {
 
         const { guild, options } = interaction;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         switch (options.getSubcommand()) {
 
             case "levels": {
 
                 const Embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle("Level Leader-Board")
                     .setDescription(`Here is a list of the current leaders:`)
                     .setFooter({ text: "Leveling System by Bun Bot" })
@@ -85,7 +87,7 @@ module.exports = {
             case "coins": {
 
                 const Embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle("Coins Leader-Board")
                     .setDescription(`Here is a list of the current leaders:`)
                     .setFooter({ text: "Currency by Bun Bot" })
@@ -138,7 +140,7 @@ module.exports = {
             case "bump": {
 
                 const Embed = new EmbedBuilder()
-                    .setColor(color)
+                    .setColor(colorData.Color || color)
                     .setTitle("Bump Count Leader-Board")
                     .setDescription(`Here is a list of the current leaders:`)
                     .setFooter({ text: "Leveling System by Bun Bot" })
