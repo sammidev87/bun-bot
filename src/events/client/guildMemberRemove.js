@@ -4,6 +4,7 @@ const economyDB = require("../../schemas/economyDB");
 const warnDB = require("../../schemas/warnDB");
 const LevelsDB = require("../../schemas/levelsDB");
 const EconomyDB = require("../../schemas/economyDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     name: Events.GuildMemberRemove,
@@ -17,6 +18,7 @@ module.exports = {
 
         const { guild } = member;
         const { emojilist, color, user } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         if (guild.id === `1037958833529696276`) {
 
@@ -29,7 +31,7 @@ module.exports = {
             await warnDB.findOneAndDelete({ Guild: guild.id, Member: member.id }).catch(err => console.error(err));
 
             const Embed = new EmbedBuilder()
-                .setColor(color)
+                .setColor(colorData.Color || color)
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
                 .setTitle("Member Left")
                 .setDescription(`${member} has left the server!\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
@@ -50,7 +52,7 @@ module.exports = {
             await warnDB.findOneAndDelete({ Guild: guild.id, Member: member.id }).catch(err => console.error(err));
 
             const Embed = new EmbedBuilder()
-                .setColor(color)
+                .setColor(colorData.Color || color)
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
                 .setTitle(`${member.user.username} Left`)
                 .setDescription(`${member} has left the server!\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)

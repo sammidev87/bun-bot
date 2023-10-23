@@ -3,6 +3,7 @@ const QotdDB = require("../../schemas/qotdDB");
 const Questions = require("../../../questions.json");
 const cron = require("node-cron");
 const ms = require("ms");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     name: Events.ClientReady,
@@ -14,6 +15,7 @@ module.exports = {
     async execute(client) {
 
         const { user, color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         //Bot Login
         console.log(`${user.tag} is online!`);
@@ -47,7 +49,7 @@ module.exports = {
                     const randomQuestion = Questions[ data.Count ];
 
                     const Embed = new EmbedBuilder()
-                        .setColor(color)
+                        .setColor(colorData.Color || color)
                         .setTitle("QOTD")
                         .setDescription(`${randomQuestion}`)
                         .setFooter({ text: "QOTD by Bun Bot" });
@@ -74,7 +76,7 @@ module.exports = {
                 queue.textChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Play Song")
                             .setDescription(`▶️ | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}\n\nCurrent queue:\n${queue.songs
                                 .map(
@@ -93,7 +95,7 @@ module.exports = {
                 queue.textChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Add Song")
                             .setDescription(`✅ | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}\n\nCurrent queue:\n${queue.songs
                                 .map(
@@ -112,7 +114,7 @@ module.exports = {
                 queue.textChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Add List")
                             .setDescription(`✅ | Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`)
                             .setFooter({ text: `Music by Bun Bot` })
@@ -124,7 +126,7 @@ module.exports = {
                 if (channel) channel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Error")
                             .setDescription(`❌ | An error encountered: ${e.toString().slice(0, 1974)}`)
                             .setFooter({ text: `Music by Bun Bot` })
@@ -137,7 +139,7 @@ module.exports = {
                 queue.textChannel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Empty")
                             .setDescription(`Voice channel is empty! Leaving the channel...`)
                             .setFooter({ text: `Music by Bun Bot` })
@@ -149,7 +151,7 @@ module.exports = {
                 interaction.channel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("No Results")
                             .setDescription(`❌ | No result found for \`${query}\`!`)
                             .setFooter({ text: `Music by Bun Bot` })

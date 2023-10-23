@@ -1,6 +1,7 @@
 const { Client, Message, Events, EmbedBuilder } = require("discord.js");
 const CountingDB = require("../../schemas/countingDB");
 const ReactionRolesDB = require("../../schemas/reactionRolesDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     name: Events.MessageDelete,
@@ -14,6 +15,7 @@ module.exports = {
 
         const { id, guild, member, channel } = message;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         //Deleted Count
         let countData = await CountingDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
@@ -24,7 +26,7 @@ module.exports = {
                 channel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Deleted Message")
                             .setDescription(`<@${member.id}> has deleted their count of ${countData.Count}`)
                             .setFooter({ text: `Counting by Bun Bot.` })

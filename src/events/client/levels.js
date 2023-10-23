@@ -2,6 +2,7 @@ const { Client, Message, EmbedBuilder, Events } = require("discord.js");
 const LevelsChannelDB = require("../../schemas/levelsChannelDB");
 const LevelsDB = require("../../schemas/levelsDB");
 const EconomyDB = require("../../schemas/economyDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     name: Events.MessageCreate,
@@ -15,6 +16,7 @@ module.exports = {
 
         const { author, guild } = message;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
 
         //Levels
         if (!guild || author.bot) return;
@@ -84,7 +86,7 @@ module.exports = {
                         content: `${author}`,
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(color)
+                                .setColor(colorData.Color || color)
                                 .setTitle("Level Up!")
                                 .setDescription(`🎉Looks like ${author} is moving up!🎉\n\n🥳Congrats you've reached level ${data.Level}!🥳\n\n🎀Keep up the good work!🎀`)
                                 .setFooter({ text: "Leveling System by Bun Bot" })
@@ -105,7 +107,7 @@ module.exports = {
                     content: `${author}`,
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(color)
+                            .setColor(colorData.Color || color)
                             .setTitle("Level Up!")
                             .setDescription(`🎉Looks like ${author} is moving up!🎉\n\n🥳Congrats you've reached level ${data.Level}!🥳\n\n🎀Keep up the good work!🎀`)
                             .setFooter({ text: "Leveling System by Bun Bot" })

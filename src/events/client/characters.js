@@ -1,5 +1,6 @@
 const { Client, Message, Events, EmbedBuilder } = require("discord.js");
 const CharactersDB = require("../../schemas/charactersDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     name: Events.MessageCreate,
@@ -13,6 +14,7 @@ module.exports = {
 
         const { channel, guild, member, content, author } = message;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         const sleep = async (ms) => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -37,7 +39,7 @@ module.exports = {
             const ReplyMessage = await message.channel.messages.fetch(message.reference.messageId);
 
             const Embed = new EmbedBuilder()
-                .setColor(color)
+                .setColor(colorData.Color || color)
                 .setThumbnail(`https://cdn.discordapp.com/attachments/${ReplyMessage.author.avatar}`)
                 .setTitle(`${ReplyMessage.author.username} ↩️`)
                 .setDescription(`${ReplyMessage.content}`)

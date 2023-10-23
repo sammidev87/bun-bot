@@ -1,5 +1,6 @@
 const { Client, Message, EmbedBuilder, Events } = require("discord.js");
 const PickDB = require("../../schemas/pickDB");
+const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     name: Events.MessageCreate,
@@ -13,6 +14,7 @@ module.exports = {
 
         const { guild, channel, author } = message;
         const { color } = client;
+        const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         const sleep = async (ms) => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -47,7 +49,7 @@ module.exports = {
         if (pickData.MessageCount === 30) {
 
             const Embed = new EmbedBuilder()
-                .setColor(color)
+                .setColor(colorData.Color || color)
                 .setTitle("Pick!")
                 .setDescription(`Someone has dropped 🪙's! Pick them up by using \`/pick\`!`)
                 .setFooter({ text: "Pick by Bun Bot" })
