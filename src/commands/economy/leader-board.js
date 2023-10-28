@@ -26,9 +26,9 @@ module.exports = {
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         let embedColor;
         if (!colorData) {
-            embedColor = colorData.Color;
-        } else {
             embedColor = color;
+        } else {
+            embedColor = embedColor.Color;
         }
 
         switch (options.getSubcommand()) {
