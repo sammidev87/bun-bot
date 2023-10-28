@@ -17,9 +17,15 @@ module.exports = {
         const { targetId } = interaction;
         const member = await users.fetch(targetId);
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle("User Avatar")
             .setDescription(`${member.username}'s Avatar:`)
             .setImage(`${member.displayAvatarURL()}`)

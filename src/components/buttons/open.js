@@ -16,6 +16,12 @@ module.exports = {
         const { guild, message, channel, member } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const ID = Math.floor(Math.random() * 90000) + 10000;
         const everyone = guild.roles.cache.get(guild.roles.everyone.id);
@@ -52,7 +58,7 @@ module.exports = {
 
             const Embed = new EmbedBuilder()
                 .setAuthor({ name: `${guild.name} | Ticket #${ID}`, iconURL: guild.iconURL({ dynamic: true }) })
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setTitle(`Ticket #${ID}`)
                 .setDescription(`Please wait patiently for someone to come and assist you. While you are waiting, please describe your issue in as much detail as possible.`)
                 .setFooter({ text: "Ticket System by Bun Bot" })

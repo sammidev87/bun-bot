@@ -15,6 +15,12 @@ module.exports = {
         const { channel, guild, member, content, author } = message;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
         const sleep = async (ms) => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -39,7 +45,7 @@ module.exports = {
             const ReplyMessage = await message.channel.messages.fetch(message.reference.messageId);
 
             const Embed = new EmbedBuilder()
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setThumbnail(`https://cdn.discordapp.com/attachments/${ReplyMessage.author.avatar}`)
                 .setTitle(`${ReplyMessage.author.username} ↩️`)
                 .setDescription(`${ReplyMessage.content}`)

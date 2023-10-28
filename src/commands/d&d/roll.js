@@ -19,6 +19,12 @@ module.exports = {
         const { options, user } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const numDice = options.getNumber("amount");
         if (numDice >= 201) return interaction.reply({ content: `You can only roll up to 200 die at a time!`, ephemeral: true });
@@ -35,7 +41,7 @@ module.exports = {
                 embeds: [
                     new EmbedBuilder()
                         .setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
-                        .setColor(colorData.Color || color)
+                        .setColor(embedColor)
                         .setTitle("🎲 Roll")
                         .setDescription(`**Dice used:** \`${numDice}d${numSides}\` | **You have rolled:** \`${diceResults.join(", ")}\` | **Your dice total:** \`${diceTotal}\``)
                         .setThumbnail('https://ucarecdn.com/0544ba87-4a6d-462f-a264-31a2c3553087/il_1588xN2699066247_ch6l.jpg')
@@ -62,7 +68,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("🎲 Roll")
                             .setDescription(`**Dice used:** \`${numDice}d${numSides}${content}\` | **You have rolled:** \`${diceResults.join(", ")}\` | **Your multiplier:** \`${numOperator}${numBonus}\` | **Your dice total:** \`${diceTotal}\``)
                             .setThumbnail('https://ucarecdn.com/0544ba87-4a6d-462f-a264-31a2c3553087/il_1588xN2699066247_ch6l.jpg')
@@ -79,7 +85,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("🎲 Roll")
                             .setDescription(`**Dice used:** \`${numDice}d${numSides}${content}\` | **You have rolled:** \`${diceResults.join(", ")}\` | **Your multiplier:** \`${numOperator}${numBonus}\` | **Your dice total:** \`${diceTotal}\``)
                             .setThumbnail('https://ucarecdn.com/0544ba87-4a6d-462f-a264-31a2c3553087/il_1588xN2699066247_ch6l.jpg')
@@ -96,7 +102,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("🎲 Roll")
                             .setDescription(`**Dice used:** \`${numDice}d${numSides}${content}\` | **You have rolled:** \`${diceResults.join(", ")}\` | **Your multiplier:** \`${numOperator}${numBonus}\` | **Your dice total:** \`${diceTotal}\``)
                             .setThumbnail('https://ucarecdn.com/0544ba87-4a6d-462f-a264-31a2c3553087/il_1588xN2699066247_ch6l.jpg')
@@ -113,7 +119,7 @@ module.exports = {
                     embeds: [
                         new EmbedBuilder()
                             .setAuthor({ name: user.username, iconURL: user.displayAvatarURL() })
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("🎲 Roll")
                             .setDescription(`**Dice used:** \`${numDice}d${numSides}${content}\` | **You have rolled:** \`${diceResults.join(", ")}\` | **Your multiplier:** \`${numOperator}${numBonus}\` | **Your dice total:** \`${diceTotal}\``)
                             .setThumbnail('https://ucarecdn.com/0544ba87-4a6d-462f-a264-31a2c3553087/il_1588xN2699066247_ch6l.jpg')

@@ -15,6 +15,12 @@ module.exports = {
         const { guild, channel, author } = message;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
         const sleep = async (ms) => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -49,7 +55,7 @@ module.exports = {
         if (pickData.MessageCount === 30) {
 
             const Embed = new EmbedBuilder()
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setTitle("Pick!")
                 .setDescription(`Someone has dropped 🪙's! Pick them up by using \`/pick\`!`)
                 .setFooter({ text: "Pick by Bun Bot" })

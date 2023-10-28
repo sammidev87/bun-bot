@@ -32,6 +32,12 @@ module.exports = {
         const { options, member, guild } = interaction;
         const { color, cooldowns, messageId } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         await EconomyDB.findOne({ Guild: guild.id, User: member.id }).then((data) => {
             if (!data) {
@@ -114,7 +120,7 @@ module.exports = {
                         const message = interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Dig")
                                     .setDescription(`You dug up ${role}!`)
                                     .setFooter({ text: "Get Lucky by Bun Bot" })
@@ -155,7 +161,7 @@ module.exports = {
                             interaction.reply({
                                 embeds: [
                                     new EmbedBuilder()
-                                        .setColor(colorData.Color || color)
+                                        .setColor(embedColor)
                                         .setTitle("Dig")
                                         .setDescription(`You have dug up ${choseItem.ItemName}!`)
                                         .setFooter({ text: `Get Lucky by Bun Bot` })
@@ -168,7 +174,7 @@ module.exports = {
                             interaction.reply({
                                 embeds: [
                                     new EmbedBuilder()
-                                        .setColor(colorData.Color || color)
+                                        .setColor(embedColor)
                                         .setTitle("Dig")
                                         .setDescription(`You have dug up ${choseItem.ItemName}!`)
                                         .setFooter({ text: `Get Lucky by Bun Bot` })
@@ -195,7 +201,7 @@ module.exports = {
                             interaction.reply({
                                 embeds: [
                                     new EmbedBuilder()
-                                        .setColor(colorData.Color || color)
+                                        .setColor(embedColor)
                                         .setTitle("Dig")
                                         .setDescription(`You have dug up ${choseItem.ItemName}!`)
                                         .setFooter({ text: `Get Lucky by Bun Bot` })
@@ -292,7 +298,7 @@ module.exports = {
                         interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Fish")
                                     .setDescription(`You fished and pulled out ${choseItem.ItemName}!`)
                                     .setFooter({ text: `Get Lucky by Bun Bot` })
@@ -306,7 +312,7 @@ module.exports = {
                         interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Fish")
                                     .setDescription(`You fished and pulled out ${choseItem.ItemName}!`)
                                     .setFooter({ text: `Get Lucky by Bun Bot` })
@@ -401,7 +407,7 @@ module.exports = {
                         interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Hunt")
                                     .setDescription(`You hunt and shot ${choseItem.ItemName}!`)
                                     .setFooter({ text: `Get Lucky by Bun Bot` })
@@ -414,7 +420,7 @@ module.exports = {
                         interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Hunt")
                                     .setDescription(`You hunt and shot ${choseItem.ItemName}!`)
                                     .setFooter({ text: `Get Lucky by Bun Bot` })
@@ -473,7 +479,7 @@ module.exports = {
                         interaction.reply({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Beg")
                                     .setDescription(`You beg and are given ${choseItem} 🪙's!`)
                                     .setFooter({ text: `Get Lucky by Bun Bot` })

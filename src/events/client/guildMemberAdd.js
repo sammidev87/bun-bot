@@ -12,8 +12,14 @@ module.exports = {
     async execute(member, client) {
 
         const { guild } = member;
-        const { emojilist, color, user } = client;
+        const { emojilist, color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         if (guild.id === `1037958833529696276`) {
 
@@ -23,7 +29,7 @@ module.exports = {
             const Channel = guild.channels.cache.get("1041165186930835506");
 
             const Embed = new EmbedBuilder()
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
                 .setDescription(`Welcome ${member} to Kawaii Daycare 18+!\n\nWe hope you enjoy your stay here. There are a few things you need to do before you can access the rest of the server. Head over to <#1037959716946591814> read the rules and then head over to <#1110374683834073140> follow the directions given to get verified.\n\nWe accept cross verification with these servers:\nSherwood Forest(18+)\nGothic Gardens\nYin Yang\nAstro\n\nWe hope you enjoy your stay!\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
                 .setThumbnail(`${member.user.displayAvatarURL()}`)
@@ -41,7 +47,7 @@ module.exports = {
             const Channel = guild.channels.cache.get("1070558675271438427");
 
             const Embed = new EmbedBuilder()
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
                 .setDescription(`Hello ${member}, welcome to 𝔊𝔬𝔱𝔥𝔦𝔠 𝔤𝔞𝔯𝔡𝔢𝔫𝔰….. wander our maze of flowers and vines to find your peace.\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
                 .setThumbnail(`${member.user.displayAvatarURL()}`)

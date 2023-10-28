@@ -17,6 +17,12 @@ module.exports = {
         const { guild, member } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const data = await EconomyDB.findOne({ Guild: guild.id, User: member.id }).catch(err => console.error(err));
         if (!data) return interaction.reply({ content: `You have no Balance data yet!`, ephemeral: true });
@@ -54,7 +60,7 @@ module.exports = {
                 });
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Shop`)
                     .setDescription(list.toString())
                     .setFooter({ text: `Page ${data.ShopPage} of ${countPages}` })
@@ -103,7 +109,7 @@ module.exports = {
                 });
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Shop`)
                     .setDescription(list.toString())
                     .setFooter({ text: `Page ${data.ShopPage} of ${countPages}` })

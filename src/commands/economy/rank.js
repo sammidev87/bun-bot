@@ -19,6 +19,12 @@ module.exports = {
         const { options, user, guild } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const Member = options.getMember("user") || user;
         const member = guild.members.cache.get(Member.id);
@@ -62,7 +68,7 @@ module.exports = {
         const Card = await rank.build().catch(err => console.log(err));
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle(`${member.user.username}'s Rank Card:`)
             .setImage("attachment://rank.png")
             .setFooter({ text: "Leveling System by Bun Bot" });

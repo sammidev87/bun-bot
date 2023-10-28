@@ -40,6 +40,12 @@ module.exports = {
         const { options, user, member, guild } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -88,7 +94,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`${title}`)
                     .setDescription(desc)
                     .setImage(image)
@@ -115,7 +121,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Embed List`)
                     .setDescription(filteredList)
                     .setFooter({ text: "Embeds by Bun Bot" })
@@ -157,7 +163,7 @@ module.exports = {
                         embeds: [
                             new EmbedBuilder()
                                 .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle(title)
                                 .setDescription(desc)
                                 .setImage(image)
@@ -173,7 +179,7 @@ module.exports = {
                         embeds: [
                             new EmbedBuilder()
                                 .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle(title)
                                 .setDescription(desc)
                                 .setFooter({ text: "Embeds by Bun Bot" })

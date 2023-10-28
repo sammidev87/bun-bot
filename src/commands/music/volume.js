@@ -17,6 +17,12 @@ module.exports = {
         const { options, member, guild } = interaction;
         const { distube, color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
         const voiceChannel = member.voice.channel;
         if (!voiceChannel) return interaction.reply({ content: `You must be in a vc to use this command!`, ephemeral: true });
         if (!member.voice.channelId == guild.members.me.voice.channelId) return interaction.reply({ content: `I am already being used in another channel, you must be in the same channel as me to use this command!`, ephemeral: true });
@@ -31,7 +37,7 @@ module.exports = {
             interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(colorData.Color || color)
+                        .setColor(embedColor)
                         .setTitle("Volume")
                         .setDescription(`Volume is now set to **${volume}**`)
                         .setFooter({ text: "Music by Bun Bot" })

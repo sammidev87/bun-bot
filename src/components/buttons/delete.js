@@ -18,6 +18,12 @@ module.exports = {
         const { guild, channel, member } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         let channelData = await TicketChannelDB.findOne({ GuildID: guild.id }).catch(err => console.error(err));
         if (!channelData) return interaction.reply({ content: `You don't have the ticket logs set up yet! You can do so by using \`/ticket log-channel\`!`, ephemeral: true });
@@ -51,7 +57,7 @@ module.exports = {
         Channel.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Closed Ticket`)
                     .setDescription(`${desc}`)
                     .setFields(

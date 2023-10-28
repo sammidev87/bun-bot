@@ -15,6 +15,12 @@ module.exports = {
         const { content, guild } = message;
         const { emojilist, color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         //Safe Word
         const data = await SafeWordDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
@@ -23,7 +29,7 @@ module.exports = {
         if (content.includes(`${data.SafeWord}`)) {
 
             const Embed = new EmbedBuilder()
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setTitle(`Safe Word | ${emojilist.cross}`)
                 .setDescription("The safe word has been spoken! Please change the subject of the conversation and an admin will be here shortly to handle the situation.")
                 .setFooter({ text: "Safe Word by Bun Bot" })

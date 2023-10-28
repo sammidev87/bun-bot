@@ -25,6 +25,12 @@ module.exports = {
         const { options, guild, channel, member } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -36,7 +42,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: guild.name, iconURL: guild.iconURL({ dynamic: true }) })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`${title}`)
                     .setDescription(`${desc}`)
                     .setFooter({ text: "Ticket System by Bun Bot" })

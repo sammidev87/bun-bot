@@ -23,6 +23,12 @@ module.exports = {
         const { options } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const question = options.getString("question");
         const option1 = options.getString("option1");
@@ -32,7 +38,7 @@ module.exports = {
         const role = options.getRole("role") || ``;
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle("Poll:")
             .setDescription(`**${question}**`)
             .addFields(

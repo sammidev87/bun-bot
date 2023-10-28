@@ -25,6 +25,12 @@ module.exports = {
         const { options, guild, member } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -46,7 +52,7 @@ module.exports = {
                     const Message = await channel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle(`Confession ${count}`)
                                 .setDescription(`${confession}`)
                                 .setFooter({ text: "Confessions by Bun Bot" })
@@ -80,7 +86,7 @@ module.exports = {
                     const Message = await channel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle(`Confession #${count}`)
                                 .setDescription(`${confession}`)
                                 .setFooter({ text: "Confessions by Bun Bot" })
@@ -105,7 +111,7 @@ module.exports = {
                     logChannel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle("Confession Log")
                                 .setDescription(`Confession has been sent:`)
                                 .setFields(
@@ -171,7 +177,7 @@ module.exports = {
                         channel.send({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle(`Reply #${count}`)
                                     .setDescription(`${reply}`)
                                     .setFooter({ text: "Confessions by Bun Bot" })
@@ -191,7 +197,7 @@ module.exports = {
                         logChannel.send({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Confession Log")
                                     .setDescription(`Reply has been sent:`)
                                     .setFields(
@@ -236,7 +242,7 @@ module.exports = {
                     channel.send({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle(`Reply #${count}`)
                                 .setDescription(`${reply}`)
                                 .setFooter({ text: "Confessions by Bun Bot" })
@@ -251,7 +257,7 @@ module.exports = {
                         logChannel.send({
                             embeds: [
                                 new EmbedBuilder()
-                                    .setColor(colorData.Color || color)
+                                    .setColor(embedColor)
                                     .setTitle("Confession Log")
                                     .setDescription(`Reply has been sent:`)
                                     .setFields(

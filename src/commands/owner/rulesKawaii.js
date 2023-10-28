@@ -29,6 +29,12 @@ module.exports = {
         const { user, member, options } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         if (user.id !== `806050057811132436`) return interaction.reply({ content: `You do not have access to this command!`, ephemeral: true });
 
@@ -59,7 +65,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Custom Chat Room Rules`)
                     .setDescription(`${desc}`)
                     .setFooter({ text: "Rules by Bun Bot" })
@@ -106,7 +112,7 @@ Exception:
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Rules`)
                     .setDescription(`${desc}`)
                     .setImage(`https://ucarecdn.com/87c4ca9b-a3af-4756-aaff-9124049f8278/Rules.jpg`)
@@ -135,7 +141,7 @@ Exception:
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Seeking Rules`)
                     .setDescription(`${desc}`)
                     .setFooter({ text: "Rules by Bun Bot" })
@@ -179,7 +185,7 @@ Exception:
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Trigger List`)
                     .setDescription(`${desc}`)
                     .setFooter({ text: "Sent by Bun Bot" })
@@ -205,7 +211,7 @@ Keep an eye on ⁠vc-chat while you're talking. We use a redlight system where p
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`VC Rules`)
                     .setDescription(`${desc}`)
                     .setImage(`https://ucarecdn.com/87c4ca9b-a3af-4756-aaff-9124049f8278/Rules.jpg`)
@@ -247,7 +253,7 @@ Keep an eye on ⁠vc-chat while you're talking. We use a redlight system where p
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`VC Rules`)
                     .setDescription(`${desc}`)
                     .setImage(`https://ucarecdn.com/87c4ca9b-a3af-4756-aaff-9124049f8278/Rules.jpg`)

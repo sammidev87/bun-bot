@@ -17,9 +17,15 @@ module.exports = {
      */
     async execute(interaction, client) {
 
-        const { guild, member, options } = interaction;
+        const { guild, options } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const user = options.getUser("user");
         const level = options.getNumber("level");
@@ -33,7 +39,7 @@ module.exports = {
         await data.save();
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle("Give Level")
             .setDescription(`You have successfully given ${user} level ${level}!`)
             .setFooter({ text: `Levels by Bun Bot` })

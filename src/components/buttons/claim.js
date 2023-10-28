@@ -16,6 +16,12 @@ module.exports = {
         const { guild, member, channel } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         if (!member.permissions.has("Administrator")) return interaction.reply({ content: `You do not have permissions to use this button!`, ephemeral: true });
 
@@ -28,7 +34,7 @@ module.exports = {
         channel.send({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Claimed Ticket`)
                     .setDescription(`This ticket has been claimed by: <@${member.id}>`)
                     .setFooter({ text: "Tickets by Bun Bot" })

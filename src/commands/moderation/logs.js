@@ -33,6 +33,12 @@ module.exports = {
         const { guild, options } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -58,7 +64,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Warn Log Channel")
                             .setDescription(`Your warn log channel ${channel} has been saved!`)
                             .setFooter({ text: "Warn by Bun Bot" })
@@ -92,7 +98,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Kick Log Channel")
                             .setDescription(`Your kick log channel ${channel} has been saved!`)
                             .setFooter({ text: "Kick by Bun Bot" })
@@ -126,7 +132,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Ban Log Channel")
                             .setDescription(`Your ban log channel ${channel} has been saved!`)
                             .setFooter({ text: "Ban by Bun Bot" })
@@ -161,7 +167,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Ticket Log Channel")
                             .setDescription(`Your channel ${Channel} has been saved!`)
                             .setFooter({ text: "Ticket System by Bun Bot" })

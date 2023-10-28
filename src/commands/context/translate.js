@@ -20,9 +20,15 @@ module.exports = {
         const content = query.content;
         const translation = await translate(query, { to: "en" });
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle("Translator")
             .setDescription(`What you requested to be translated:`)
             .setFields(

@@ -61,6 +61,12 @@ module.exports = {
         const { options, member, guild } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -87,7 +93,7 @@ module.exports = {
                 interaction.reply({
                     content: `<@${user.id}>`, embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Modify Balance")
                             .setDescription(`<@${member.id}> has added ${amount} 🪙's to <@${user.id}>!`)
                             .setFooter({ text: "Currency by Bun Bot" })
@@ -118,7 +124,7 @@ module.exports = {
                 interaction.reply({
                     content: `<@${user.id}>`, embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Modify Balance")
                             .setDescription(`<@${member.id}> has removed ${amount} 🪙's from <@${user.id}>!`)
                             .setFooter({ text: "Currency by Bun Bot" })
@@ -168,7 +174,7 @@ module.exports = {
                 if (!data) return interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Shop Add")
                             .setDescription(`Your item:\nName: ${newItem.ItemName}\nDescription: ${newItem.ItemDescription}\nPrice: ${newItem.ItemPrice}\nRole Reward: <@&${newItem.ItemRole}>\n\nHas been saved!`)
                             .setFooter({ text: "Shop by Bun Bot" })
@@ -196,7 +202,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle("Shop Add")
                                 .setDescription(`Your item:\nName: ${newItem.ItemName}\nDescription: ${newItem.ItemDescription}\nPrice: ${newItem.ItemPrice}\nRole Reward: <@&${newItem.ItemRole}>\n\nHas been saved!`)
                                 .setFooter({ text: "Shop by Bun Bot" })
@@ -234,7 +240,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle("Shop Remove")
                                 .setDescription(`Your item has been removed!`)
                                 .setFooter({ text: "Shop by Bun Bot" })
@@ -283,7 +289,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Modify Inventory")
                             .setDescription(`Your item:\nName: ${item.ItemName}\nDescription: ${item.ItemDescription}\nPrice: ${item.ItemPrice}\nRole Reward: <@&${item.ItemRole}>\n has been given to <@${user.id}>!`)
                             .setFooter({ text: "Shop by Bun Bot" })
@@ -326,7 +332,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle("Removed")
                                 .setDescription("The item has been removed from their inventory!")
                                 .setFooter({ text: "Currency by Bun Bot" })
@@ -364,7 +370,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Pick Channel")
                             .setDescription(`Your channel \`${channel.name}\` has been saved!`)
                             .setFooter({ text: "Pick by Bun Bot" })

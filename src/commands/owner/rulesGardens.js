@@ -21,6 +21,12 @@ module.exports = {
         const { options } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -42,7 +48,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Little Rules`)
                     .setDescription(`${desc}`)
                     .setFooter({ text: "Rules by Bun Bot" })
@@ -91,7 +97,7 @@ module.exports = {
         `];
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle("Poll")
                     .setDescription(`${desc}`)
                     .setImage(`https://ucarecdn.com/a12de301-5bf2-44ef-a32c-8a456ad40054/IMG_5905.jpg`)

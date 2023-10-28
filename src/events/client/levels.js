@@ -17,6 +17,12 @@ module.exports = {
         const { author, guild } = message;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         //Levels
         if (!guild || author.bot) return;
@@ -86,7 +92,7 @@ module.exports = {
                         content: `${author}`,
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle("Level Up!")
                                 .setDescription(`🎉Looks like ${author} is moving up!🎉\n\n🥳Congrats you've reached level ${data.Level}!🥳\n\n🎀Keep up the good work!🎀`)
                                 .setFooter({ text: "Leveling System by Bun Bot" })
@@ -107,7 +113,7 @@ module.exports = {
                     content: `${author}`,
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Level Up!")
                             .setDescription(`🎉Looks like ${author} is moving up!🎉\n\n🥳Congrats you've reached level ${data.Level}!🥳\n\n🎀Keep up the good work!🎀`)
                             .setFooter({ text: "Leveling System by Bun Bot" })

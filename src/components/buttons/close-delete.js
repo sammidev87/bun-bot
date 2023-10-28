@@ -16,6 +16,12 @@ module.exports = {
         const { guild, member, user, channel, message } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         if (!member.permissions.has("Administrator")) return interaction.reply({ content: `You do not have permission to use this button!`, ephemeral: true });
 
@@ -26,7 +32,7 @@ module.exports = {
         await ticketData.save();
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
             .setTitle("⚠️ | Close & Delete")
             .setDescription("Are you sure you want to close and delete the ticket?")

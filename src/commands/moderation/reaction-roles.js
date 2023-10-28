@@ -34,6 +34,12 @@ module.exports = {
         const { options, guild, member, channel } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -166,7 +172,7 @@ module.exports = {
                     });
 
                     const panelEmbed = new EmbedBuilder()
-                        .setColor(colorData.Color || color)
+                        .setColor(embedColor)
                         .setTitle(`${panel}`)
                         .setDescription(`React with the corresponding emoji to recieve the role you want.\n\n${roleAndEmoji.join(` \n`)}`)
                         .setFooter({ text: "Reaction Roles by Bun Bot" })

@@ -29,6 +29,12 @@ module.exports = {
         const { options, user, member, guild } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -43,7 +49,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle(`Counting Reset`)
                             .setDescription(`You have reset the count! Your count will now begin at \`1\`!`)
                             .setFooter({ text: "Counting by Bun Bot" })
@@ -69,7 +75,7 @@ module.exports = {
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle(`Counting Save`)
                     .setDescription(`You have saved the count! Your count will now begin at ${newNumber}!`)
                     .setFooter({ text: "Counting by Bun Bot" })
@@ -119,7 +125,7 @@ module.exports = {
                 const highScore = data.HighScore;
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle("High Score")
                     .setDescription(`Current Counting High Score: \`${highScore}\``)
                     .setFooter({ text: "Counting by Expression Bot" })

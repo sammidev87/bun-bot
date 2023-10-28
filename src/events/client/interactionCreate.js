@@ -10,7 +10,7 @@ module.exports = {
     async execute(interaction, client) {
 
         const { customId, commandName } = interaction;
-        const { commands, buttons, selectMenus, modals, contextMenus } = client;
+        const { commands, buttons, selectMenus, modals } = client;
 
         if (interaction.isChatInputCommand()) {
 

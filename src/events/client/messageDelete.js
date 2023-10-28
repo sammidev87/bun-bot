@@ -16,6 +16,12 @@ module.exports = {
         const { id, guild, member, channel } = message;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         //Deleted Count
         let countData = await CountingDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
@@ -26,7 +32,7 @@ module.exports = {
                 channel.send({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Deleted Message")
                             .setDescription(`<@${member.id}> has deleted their count of ${countData.Count}`)
                             .setFooter({ text: `Counting by Bun Bot.` })

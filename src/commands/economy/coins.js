@@ -33,6 +33,12 @@ module.exports = {
         const { options, member, guild } = interaction;
         const { color, cooldowns } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         switch (options.getSubcommand()) {
 
@@ -52,7 +58,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle(`${user.username}'s Balance`)
                             .setDescription(`Here is a list of your balance and items:`)
                             .setFields(
@@ -88,7 +94,7 @@ module.exports = {
                     const remaining = humanizeDuration(cooldown - Date.now());
 
                     const Embed = new EmbedBuilder()
-                        .setColor(colorData.Color || color)
+                        .setColor(embedColor)
                         .setTitle("Snuggle")
                         .setDescription(`Please wait another ${remaining} before using snuggle again.`)
                         .setFooter({ text: "Currency by Bun Bot" })
@@ -105,7 +111,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle("Snuggle Time!")
                                 .setDescription(`<@${member.id}> snuggled Bun Bot and earned 3 🪙!`)
                                 .setFooter({ text: "Currency by Bun Bot" })
@@ -137,7 +143,7 @@ module.exports = {
                     const remaining = humanizeDuration(cooldown - Date.now());
 
                     const Embed = new EmbedBuilder()
-                        .setColor(colorData.Color || color)
+                        .setColor(embedColor)
                         .setTitle("Pet")
                         .setDescription(`Please wait another ${remaining} before using pet again.`)
                         .setFooter({ text: "Currency by Bun Bot" })
@@ -154,7 +160,7 @@ module.exports = {
                     interaction.reply({
                         embeds: [
                             new EmbedBuilder()
-                                .setColor(colorData.Color || color)
+                                .setColor(embedColor)
                                 .setTitle("Pet!")
                                 .setDescription(`<@${member.id}> petted Bun Bot and earned 5 🪙!`)
                                 .setFooter({ text: "Currency by Bun Bot" })
@@ -192,7 +198,7 @@ module.exports = {
                 await targetUserData.save();
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle("Give Coins")
                     .setDescription(`<@${member.id}> has given <@${targetUser.id}> ${amount} 🪙's!`)
                     .setFooter({ text: "Currency by Bun Bot" })
@@ -237,7 +243,7 @@ module.exports = {
                 interaction.reply({
                     embeds: [
                         new EmbedBuilder()
-                            .setColor(colorData.Color || color)
+                            .setColor(embedColor)
                             .setTitle("Give Inventory")
                             .setDescription(`The item ${itemName} has been given to ${targetUser}`)
                             .setFooter({ text: "Currency by Bun Bot" })

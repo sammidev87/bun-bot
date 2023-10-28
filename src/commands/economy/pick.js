@@ -18,6 +18,12 @@ module.exports = {
         const { guild, member } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         let pickData = await PickDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         let economyData = await EconomyDB.findOne({ Guild: guild.id, User: member.id }).catch(err => console.error(err));
@@ -31,7 +37,7 @@ module.exports = {
             await economyData.save();
 
             const Embed = new EmbedBuilder()
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setTitle("Hurray!")
                 .setDescription(`You have picked ${coins} 🪙's!`)
                 .setFooter({ text: "Pick by Bun Bot" })
@@ -47,7 +53,7 @@ module.exports = {
         } else if (pickData.OpenWindow === false) {
 
             const Embed = new EmbedBuilder()
-                .setColor(colorData.Color || color)
+                .setColor(embedColor)
                 .setTitle("Uh Oh!")
                 .setDescription(`There is nothing to pick right now!`)
                 .setFooter({ text: "Pick by Bun Bot" })

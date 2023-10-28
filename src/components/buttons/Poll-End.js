@@ -16,6 +16,12 @@ module.exports = {
         const { guild, user, message } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const Member = guild.members.cache.get(user.id);
 
@@ -40,7 +46,7 @@ module.exports = {
                 ${answers}` ];
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle("Poll Ended")
             .setDescription(`${desc}`)
             .setFields(

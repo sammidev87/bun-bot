@@ -17,6 +17,12 @@ module.exports = {
         const bot = author.id;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
         const sleep = async (ms) => {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
@@ -62,7 +68,7 @@ module.exports = {
         message.reply({
             embeds: [
                 new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle("Bumped!")
                     .setDescription("Thank you for bumping our server! You have been awarded 10 🪙's! We will remind you when to bump again!")
                     .setFooter({ text: "Bump Buddy by Bun Bot" })
@@ -75,7 +81,7 @@ module.exports = {
                 content: `<@${member}> <@&1042275026616983654>`,
                 embeds: [
                     new EmbedBuilder()
-                        .setColor(colorData.Color || color)
+                        .setColor(embedColor)
                         .setTitle("Time to Bump!")
                         .setDescription(`Help us get new members! Use \`/bump\` to bump the server!`)
                         .setFooter({ text: "Bump Buddy by Bun Bot" })

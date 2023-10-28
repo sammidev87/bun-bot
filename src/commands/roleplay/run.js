@@ -20,6 +20,12 @@ module.exports = {
         const { member, options } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const Text = options.getString("text");
         const Mention = options.getUser("user");
@@ -41,7 +47,7 @@ module.exports = {
         const image = gifs[ count ];
 
         const embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle("Run")
             .setDescription(`${member} runs away${pingText}!`)
             .setImage(image)

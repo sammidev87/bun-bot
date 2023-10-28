@@ -15,9 +15,15 @@ module.exports = {
 
         const { ws, color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = color;
+        } else {
+            embedColor = colorData.Color;
+        }
 
         const Embed = new EmbedBuilder()
-            .setColor(colorData.Color || color)
+            .setColor(embedColor)
             .setTitle("Ping:")
             .setDescription(`The current latency is: \`${ws.ping} ms\``)
             .setFooter({ text: `Ping by Bun Bot` })
