@@ -24,13 +24,19 @@ module.exports = {
         const { guild, options } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
+        let embedColor;
+        if (!colorData) {
+            embedColor = colorData.Color;
+        } else {
+            embedColor = color;
+        }
 
         switch (options.getSubcommand()) {
 
             case "levels": {
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle("Level Leader-Board")
                     .setDescription(`Here is a list of the current leaders:`)
                     .setFooter({ text: "Leveling System by Bun Bot" })
@@ -87,7 +93,7 @@ module.exports = {
             case "coins": {
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle("Coins Leader-Board")
                     .setDescription(`Here is a list of the current leaders:`)
                     .setFooter({ text: "Currency by Bun Bot" })
@@ -140,7 +146,7 @@ module.exports = {
             case "bump": {
 
                 const Embed = new EmbedBuilder()
-                    .setColor(colorData.Color || color)
+                    .setColor(embedColor)
                     .setTitle("Bump Count Leader-Board")
                     .setDescription(`Here is a list of the current leaders:`)
                     .setFooter({ text: "Leveling System by Bun Bot" })
