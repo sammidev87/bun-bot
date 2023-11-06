@@ -37,6 +37,7 @@ module.exports = {
             case "confess": {
 
                 const confession = options.getString("confession");
+                if (confession.length > 1024) return interaction.reply({ content: `Your response is too long. Please keep your message under 1024 characters`, ephemeral: true });
                 const data = await ConfessionDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
                 if (!data) return interaction.reply({ content: `There is no confession channel set up yet!`, ephemeral: true });
                 const channel = guild.channels.cache.get(data.Channel);
@@ -156,6 +157,7 @@ module.exports = {
 
                 const confession = options.getNumber("confession");
                 const reply = options.getString("reply");
+                if (reply.length > 1024) return interaction.reply({ content: `Your response is too long. Please keep your message under 1024 characters`, ephemeral: true });
                 const data = await ConfessionReplyDB.findOne({ Guild: guild.id, ConfessionNumber: confession }).catch(err => console.error(err));
                 if (!data) return interaction.reply({ content: `Could not find that confession! (if the confession #'s started back at 0, then we can't find the confessions before #0)`, ephemeral: true });
                 const oldConfessionChannel = guild.channels.cache.get(data.Channel);
