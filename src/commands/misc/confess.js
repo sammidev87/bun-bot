@@ -37,7 +37,6 @@ module.exports = {
             case "confess": {
 
                 const confession = options.getString("confession");
-                if (confession.length > 1024) return interaction.reply({ content: `Your response is too long. Please keep your message under 1024 characters`, ephemeral: true });
                 const data = await ConfessionDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
                 if (!data) return interaction.reply({ content: `There is no confession channel set up yet!`, ephemeral: true });
                 const channel = guild.channels.cache.get(data.Channel);
@@ -114,8 +113,13 @@ module.exports = {
                             new EmbedBuilder()
                                 .setColor(embedColor)
                                 .setTitle("Confession Log")
-                                .setDescription(`Confession has been sent:`)
+                                .setDescription(`${confession}`)
                                 .setFields(
+                                    {
+                                        name: `Confession Number:`,
+                                        value: `${data.Count}`,
+                                        inline: false,
+                                    },
                                     {
                                         name: `Username:`,
                                         value: `${member.user.username}`,
@@ -124,16 +128,6 @@ module.exports = {
                                     {
                                         name: `User ID:`,
                                         value: `${member.id}`,
-                                        inline: false,
-                                    },
-                                    {
-                                        name: `Confession:`,
-                                        value: `${confession}`,
-                                        inline: false,
-                                    },
-                                    {
-                                        name: `Confession Number:`,
-                                        value: `${data.Count}`,
                                         inline: false,
                                     },
                                 )
@@ -157,7 +151,6 @@ module.exports = {
 
                 const confession = options.getNumber("confession");
                 const reply = options.getString("reply");
-                if (reply.length > 1024) return interaction.reply({ content: `Your response is too long. Please keep your message under 1024 characters`, ephemeral: true });
                 const data = await ConfessionReplyDB.findOne({ Guild: guild.id, ConfessionNumber: confession }).catch(err => console.error(err));
                 if (!data) return interaction.reply({ content: `Could not find that confession! (if the confession #'s started back at 0, then we can't find the confessions before #0)`, ephemeral: true });
                 const oldConfessionChannel = guild.channels.cache.get(data.Channel);
@@ -200,9 +193,14 @@ module.exports = {
                             embeds: [
                                 new EmbedBuilder()
                                     .setColor(embedColor)
-                                    .setTitle("Confession Log")
-                                    .setDescription(`Reply has been sent:`)
+                                    .setTitle("Confession Log (Reply)")
+                                    .setDescription(`${reply}`)
                                     .setFields(
+                                        {
+                                            name: `Reply Number:`,
+                                            value: `${count}`,
+                                            inline: false,
+                                        },
                                         {
                                             name: `Username:`,
                                             value: `${member.user.username}`,
@@ -211,16 +209,6 @@ module.exports = {
                                         {
                                             name: `User ID:`,
                                             value: `${member.id}`,
-                                            inline: false,
-                                        },
-                                        {
-                                            name: `Reply:`,
-                                            value: `${reply}`,
-                                            inline: false,
-                                        },
-                                        {
-                                            name: `Reply Number:`,
-                                            value: `${count}`,
                                             inline: false,
                                         },
                                     )
@@ -306,3 +294,14 @@ module.exports = {
 
     }
 };
+
+function splitMessage(str, size) {
+    const numChunks = Math.ceil(str.length / size);
+    const chunks = new Array(numChunks);
+
+    for ( let i = 0, c = 0; i < numChunks; ++i, c += size) {
+        chunks[i] = str.substr(c, size);
+    }
+
+    return chunks
+}
