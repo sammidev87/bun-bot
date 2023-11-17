@@ -31,7 +31,7 @@ module.exports = {
             const Embed = new EmbedBuilder()
                 .setColor(embedColor)
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
-                .setDescription(`Welcome ${member} to Kawaii Daycare 18+!\n\nWe hope you enjoy your stay here. There are a few things you need to do before you can access the rest of the server. Head over to <#1037959716946591814> read the rules and then head over to <#1110374683834073140> follow the directions given to get verified.\n\nWe accept cross verification with these servers:\nSherwood Forest(18+)\nGothic Gardens\nYin Yang\nAstro\n\nWe hope you enjoy your stay!\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
+                .setDescription(`Welcome ${member} to Kawaii Daycare 18+!\n\nWe hope you enjoy your stay here. There are a few things you need to do before you can access the rest of the server. Head over to <#1037959716946591814> read them and then head over to <#1110374683834073140> and follow the directions given to get verified.\n\nWe accept cross verification with these servers:\nSherwood Forest(18+)\nGothic Gardens\nDevotion\n\nWe hope you enjoy your stay!\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
                 .setThumbnail(`${member.user.displayAvatarURL()}`)
                 .setImage(`https://ucarecdn.com/d06d1f51-5850-49f1-89d2-2346ce19d17e/78080b5ee476d374d3a7b40b1aa463b7.jpg`)
                 .setFooter({ text: "Welcome by Bun Bot" })
