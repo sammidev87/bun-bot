@@ -26,7 +26,7 @@ module.exports = {
      */
     async execute(interaction, client) {
 
-        const { user, member, options } = interaction;
+        const { user, member, options, guild } = interaction;
         const { color } = client;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         let embedColor;
