@@ -81,34 +81,30 @@ module.exports = {
 
                 const desc = [ `1. You must ID verify to join this server, only 18+ will be admitted.
 
-2. While our server focuses on mental health, we are not therapists. We are here to listen to you and give you advice if you need it (especially anyone with the <@&1149482525190791238> role), but no one on the server will be able to replace professional care. However if you want such care we have the <#1149129147222867968> where staff will help you quickly and to the best of their abilities.
+2. We have a strict no-tolerance policy for drama or attention-seeking. While we understand that everyone has their triggers and sometimes it might be hard for you to keep your emotions under control, we ask that if something or someone rubs you the wrong way, you disengage. We have several chat channels and safe spaces so that if conversation in one channel makes you feel uncomfortable,  you have other options.
 
-3. We have a strict no-tolerance policy for drama or attention-seeking. While we understand that everyone has their triggers and sometimes it might be hard for you to keep your emotions under control, we ask that if something or someone rubs you the wrong way, you disengage. We have several chat channels and safe spaces so that if conversation in one channel makes you feel uncomfortable,  you have other options.
+3. No forms of discrimination based on sex, gender, orientation, ethnicity, religion, or any other factor will be tolerated whatsoever.
 
-4. No forms of discrimination based on sex, gender, orientation, ethnicity, religion, or any other factor will be tolerated whatsoever.
+4. Respect the decisions of staff. If you wish to contest a warn or ban you are requested to <#1037971276272242688> or message another mod. Do not start an argument in public channels or DMs.
 
-5. Respect the decisions of staff. If you wish to contest a warn or ban you are requested to <#1037971276272242688> or message another mod. Do not start an argument in public channels or DMs.
+5. No spamming, flooding the chat, or sending large walls of text into any of the channels. Links, memes, funny pictures etc go in <#1074287091074207845>.
 
-6. No spamming, flooding the chat, or sending large walls of text into any of the channels. Links, memes, funny pictures etc go in <#1074287091074207845>.
+6. Venting is only allowed in the <#1039199877432877106> (general venting), <#1149464395504685146> (for heavy topics), <#1085447609012989962> (to vent anonymously), or <#1149804294879596564> (your vent will be instantly deleted) channels.
 
-7. Venting is only allowed in the <#1039199877432877106> (general venting), <#1149464395504685146> (for heavy topics), <#1085447609012989962> (to vent anonymously), or <#1149804294879596564> (your vent will be instantly deleted) channels.
+7. For <#1149464495626911764>, cussing and any topic on our spoiler topics trigger list requires a trigger warning as well as being spoilered, so people know what they are unspoilering in advance.
 
-8. Any and all mention of mental health issues beyond a passing mention belongs in the channels meant for discussion of specific issues.
+8. Please respect peoples' roles - they are there for a reason. That means if they have No Flirting/No Touch/No DMs, then respect that. Do not give anyone a nickname/petname without getting consent first!
 
-9. For <#1149464495626911764> and <#1149464553537675295> , cussing and any topic on our spoiler topics trigger list requires a trigger warning as well as being spoilered, so people know what they are unspoilering in advance.
+9. Please use the proper channels, they are labeled the way they are for a reason. (You must reach level 5 in the server before you can use the <#1037960677014392832> channel. If you ask to dm someone before you reach level 5 and/or not in <#1037960677014392832> you will be given an automatic warning)
 
-10. Please respect peoples' roles - they are there for a reason. That means if they have No Flirting/No Touch/No DMs, then respect that. Do not give anyone a nickname/petname without getting consent first!
+10. If you as a member feel uncomfortable or threatened around another member, please <#1037971276272242688>. We will resolve the situation for you and never think you are bugging us or wasting our time.
 
-11. Please use the proper channels, they are labeled the way they are for a reason. (You must reach level 5 in the server before you can use the <#1037960677014392832> channel. If you ask to dm someone before you reach level 5 and/or not in <#1037960677014392832> you will be given an automatic warning)
-
-12. If you as a member feel uncomfortable or threatened around another member, please <#1037971276272242688>. We will resolve the situation for you and never think you are bugging us or wasting our time.
-
-13. If you break a rule, you will be given a verbal warning. If you break the same rule again, an official warning will follow. If the rule breaking is deemed severe enough, you may get an immediate official warning. After three official warnings, you will be banned.
+11. If you break a rule, you will be given a verbal warning. If you break the same rule again, an official warning will follow. If the rule breaking is deemed severe enough, you may get an immediate official warning. After three official warnings, you will be banned.
 
 Exception:
 (Staff reserves the right to ban any member at any time if they feel the member's actions threaten other members or the server itself.)
 
-14. Please follow Discord TOS. Breaking these will result in an instant ban.` ];
+12. Please follow Discord TOS. Breaking these will result in an instant ban.` ];
 
                 const Embed = new EmbedBuilder()
                     .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
