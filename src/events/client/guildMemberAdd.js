@@ -49,7 +49,7 @@ module.exports = {
             const Embed = new EmbedBuilder()
                 .setColor(embedColor)
                 .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
-                .setDescription(`Hello ${member}, welcome to 𝔊𝔬𝔱𝔥𝔦𝔠 𝔤𝔞𝔯𝔡𝔢𝔫𝔰….. wander our maze of flowers and vines to find your peace.\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
+                .setDescription(`Hello ${member}, welcome to 𝔊𝔬𝔱𝔥𝔦𝔠 𝔤𝔞𝔯𝔡𝔢𝔫𝔰…..\n\nIn order to access the rest of the server please read the <#1071994731124498452>, and then head over to <#1071994341247176734> to verify and gain access!\n\nWander our maze of flowers and vines to find your peace.\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
                 .setThumbnail(`${member.user.displayAvatarURL()}`)
                 .setFooter({ text: "Someone has wandered through our gates….." })
                 .setTimestamp();
@@ -62,6 +62,24 @@ module.exports = {
                 const PingChannel = guild.channels.cache.get(`${chan}`);
                 PingChannel.send({ content: `<@${member.id}>` }).then(msg => msg.delete(10000));
             });
+
+        } else if (guild.id === `1203789396713930832`) {
+
+            const role = guild.roles.cache.get(`1203808008723759134`);
+            member.roles.add(role);
+
+            const Channel = guild.channels.cache.get("1203806840710893619");
+
+            const Embed = new EmbedBuilder()
+                .setColor(embedColor)
+                .setAuthor({ name: guild.name, iconURL: guild.iconURL() })
+                .setDescription(`Welcome ${member} to The Mighty!\n\nWe hope you enjoy your stay here!\n\nAccount Created: <t:${parseInt(member.user.createdTimestamp / 1000)}:R>\nMemberCount: \`${guild.memberCount}\``)
+                .setThumbnail(`${member.user.displayAvatarURL()}`)
+                .setImage(`https://ucarecdn.com/5c3c1435-1749-49f5-b65f-52e82a34cb9d/sao_welcome_screen_by_flightofgrace_d9ajwibfullview.jpg`)
+                .setFooter({ text: "Welcome by Bun Bot" })
+                .setTimestamp();
+
+            Channel.send({ content: `Welcome <@${member.id}>! ${emojilist.tick}`, embeds: [ Embed ] });
 
         } else {
 

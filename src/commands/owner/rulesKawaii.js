@@ -89,13 +89,13 @@ module.exports = {
 
 5. No spamming, flooding the chat, or sending large walls of text into any of the channels. Links, memes, funny pictures etc go in <#1074287091074207845>.
 
-6. Venting is only allowed in the <#1039199877432877106> (general venting), <#1149464395504685146> (for heavy topics), <#1085447609012989962> (to vent anonymously), or <#1149804294879596564> (your vent will be instantly deleted) channels.
+6. Venting is only allowed in the <#1085447609012989962> (for regular, positivity, heavy **must be spoilered**, and to vent anonymously), or <#1149804294879596564> (your vent will be instantly deleted) channels.
 
 7. For <#1149464495626911764>, cussing and any topic on our spoiler topics trigger list requires a trigger warning as well as being spoilered, so people know what they are unspoilering in advance.
 
 8. Please respect peoples' roles - they are there for a reason. That means if they have No Flirting/No Touch/No DMs, then respect that. Do not give anyone a nickname/petname without getting consent first!
 
-9. Please use the proper channels, they are labeled the way they are for a reason. (You must reach level 5 in the server before you can use the <#1037960677014392832> channel. If you ask to dm someone before you reach level 5 and/or not in <#1037960677014392832> you will be given an automatic warning)
+9. Please use the proper channels, they are labeled the way they are for a reason.
 
 10. If you as a member feel uncomfortable or threatened around another member, please <#1037971276272242688>. We will resolve the situation for you and never think you are bugging us or wasting our time.
 

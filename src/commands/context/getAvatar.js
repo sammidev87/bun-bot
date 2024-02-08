@@ -13,7 +13,7 @@ module.exports = {
      */
     async execute(interaction, client) {
 
-        const { color, users } = client;
+        const { color, users, guild } = client;
         const { targetId } = interaction;
         const member = await users.fetch(targetId);
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));

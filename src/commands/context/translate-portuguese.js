@@ -4,7 +4,7 @@ const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
-        .setName("translate")
+        .setName("translate portuguese")
         .setType(ApplicationCommandType.Message),
 
     /**
@@ -14,11 +14,11 @@ module.exports = {
      */
     async execute(interaction, client) {
 
-        const { color, guild } = client;
-        const { targetId, channel } = interaction;
+        const { color } = client;
+        const { targetId, channel, guild } = interaction;
         const query = await channel.messages.fetch({ message: targetId });
         const content = query.content;
-        const translation = await translate(query, { to: "en" });
+        const translation = await translate(query, { from: "pt", to: "en" });
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         let embedColor;
         if (!colorData) {
