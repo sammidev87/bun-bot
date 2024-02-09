@@ -4,7 +4,7 @@ const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new ContextMenuCommandBuilder()
-        .setName("translate portuguese")
+        .setName("portuguese-translate")
         .setType(ApplicationCommandType.Message),
 
     /**
