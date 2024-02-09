@@ -4,7 +4,7 @@ const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("translate-en")
+        .setName("translation")
         .setDescription("Translates english to another language.")
             .addStringOption(opt => opt.setName("text").setDescription("The text to translate.").setRequired(true))
             .addStringOption(opt => opt.setName("language").setDescription("the language to translate ex. 'pt' for portuguese.").setRequired(true)),
@@ -32,7 +32,7 @@ module.exports = {
         const Embed = new EmbedBuilder()
             .setAuthor(user.username, member.avatar)
             .setColor(embedColor)
-            .setTitle("Ping:")
+            .setTitle("Translator")
             .setDescription(`${translation.text}`)
             .setFooter({ text: `Translator by Bun Bot` })
             .setTimestamp();
