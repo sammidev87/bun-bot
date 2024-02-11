@@ -33,7 +33,7 @@ module.exports = {
             .setAuthor(user.username, member.avatar)
             .setColor(embedColor)
             .setTitle("Translator")
-            .setDescription(`${translation.text}`)
+            .setDescription(`${query}`)
             .setFooter({ text: `Translator by Bun Bot` })
             .setTimestamp();
 
