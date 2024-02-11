@@ -8,8 +8,8 @@ const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("kick")
-        .setDescription("Kick a member.")
+        .setName("ban")
+        .setDescription("Ban a member.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
             .addUserOption(opt => opt.setName("user").setDescription("User you want to kick.").setRequired(true))
             .addStringOption(opt => opt.setName("reason").setDescription("Reason for kick.").setRequired(true)),
