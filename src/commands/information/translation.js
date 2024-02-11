@@ -18,9 +18,9 @@ module.exports = {
 
         const { color } = client;
         const { guild, options, member, user } = interaction;
-        const text = options.getString("text");
+        const query = options.getString("text");
         const language = options.getString("language");
-        const translation = await translate(text, { from: "en", to: `${language}` });
+        const translation = await translate(query, { from: "en", to: `${language}` });
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         let embedColor;
         if (!colorData) {
