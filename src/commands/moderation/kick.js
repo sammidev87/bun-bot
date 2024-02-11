@@ -10,7 +10,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("kick")
         .setDescription("Kick a member.")
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
             .addUserOption(opt => opt.setName("user").setDescription("User you want to kick.").setRequired(true))
             .addStringOption(opt => opt.setName("reason").setDescription("Reason for kick.").setRequired(true)),
 
