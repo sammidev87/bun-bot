@@ -21,6 +21,7 @@ module.exports = {
         const query = options.getString("text");
         const language = options.getString("language");
         const translation = await translate(query, { from: "en", to: `${language}` });
+        const name = member.nickname || member.displayName;
         const colorData = await colorDB.findOne({ Guild: guild.id }).catch(err => console.error(err));
         let embedColor;
         if (!colorData) {
@@ -30,7 +31,7 @@ module.exports = {
         }
 
         const Embed = new EmbedBuilder()
-            .setAuthor({ name: member.nickname, iconURL: member.displayAvatarURL() })
+            .setAuthor({ name: name, iconURL: member.displayAvatarURL() })
             .setColor(embedColor)
             .setTitle("Translator")
             .setDescription(`${translation.text}`)
