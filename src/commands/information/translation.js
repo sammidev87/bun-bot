@@ -4,7 +4,7 @@ const colorDB = require("../../schemas/colorDB");
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName("translation")
+        .setName("translations")
         .setDescription("Translates english to another language.")
             .addStringOption(opt => opt.setName("text").setDescription("The text to translate.").setRequired(true))
             .addStringOption(opt => opt.setName("language").setDescription("the language to translate ex. 'pt' for portuguese.").setRequired(true)),
