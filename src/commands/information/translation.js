@@ -30,10 +30,10 @@ module.exports = {
         }
 
         const Embed = new EmbedBuilder()
-            .setAuthor(user.username, member.avatar)
+            .setAuthor({ name: user.username, iconURL: member.displayAvatarURL })
             .setColor(embedColor)
             .setTitle("Translator")
-            .setDescription(`${query}`)
+            .setDescription(`${translation.text}`)
             .setFooter({ text: `Translator by Bun Bot` })
             .setTimestamp();
 
