@@ -30,7 +30,7 @@ module.exports = {
         }
 
         const Embed = new EmbedBuilder()
-            .setAuthor({ name: user.username, iconURL: member.displayAvatarURL })
+            .setAuthor({ name: user.username, iconURL: member.displayAvatarURL() })
             .setColor(embedColor)
             .setTitle("Translator")
             .setDescription(`${translation.text}`)
