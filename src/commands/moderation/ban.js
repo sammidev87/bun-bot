@@ -1,5 +1,6 @@
 const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
 const BanChannelDB = require("../../schemas/banChannelDB");
+const WarnDB = require("../../schemas/warnDB");
 const charactersDB = require("../../schemas/charactersDB");
 const economyDB = require("../../schemas/economyDB");
 const LevelsDB = require("../../schemas/levelsDB");
