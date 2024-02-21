@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const BanChannelDB = require("../../schemas/banChannelDB");
 const warnDB = require("../../schemas/warnDB");
 const charactersDB = require("../../schemas/charactersDB");
@@ -13,7 +13,8 @@ module.exports = {
         .setDescription("Ban a member.")
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
             .addUserOption(opt => opt.setName("user").setDescription("User you want to kick.").setRequired(true))
-            .addStringOption(opt => opt.setName("reason").setDescription("Reason for kick.").setRequired(true)),
+            .addStringOption(opt => opt.setName("reason").setDescription("Reason for kick.").setRequired(true))
+            .addAttachmentOption(opt => opt.setName("attachment").setDescription("Attach image").setRequired(true)),
 
     /**
      * 
@@ -34,6 +35,8 @@ module.exports = {
 
         const user = options.getUser("user");
         const reason = options.getString("reason") || `No reason provided`;
+        const rawFile = options.getAttachment("attachment").url;
+        const file = new AttachmentBuilder(rawFile, 'attached.png');
         const findUser = guild.members.cache.get(user.id);
         const findMember = guild.members.cache.get(member.id);
 
@@ -55,9 +58,13 @@ module.exports = {
                     .setColor(embedColor)
                     .setTitle("Banned!")
                     .setDescription(`${user} has been Banned by ${member} for \`${reason}\``)
+                    .setImage('attachment://attached.png')
                     .setFooter({ text: "Ban by Bun Bot" })
                     .setTimestamp()
             ],
+            files: [
+                file
+            ]
         });
 
         findUser.ban({ reason: reason, deleteMessageSeconds: 7 * 24 * 60 * 60 });

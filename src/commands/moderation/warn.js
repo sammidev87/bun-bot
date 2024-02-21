@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const WarnChannelDB = require("../../schemas/warnChannelDB");
 const WarnDB = require("../../schemas/warnDB");
 const charactersDB = require("../../schemas/charactersDB");
@@ -17,6 +17,7 @@ module.exports = {
             .setDescription("Warn a member.")
             .addUserOption(opt => opt.setName("user").setDescription("User you want to warn.").setRequired(true))
             .addStringOption(opt => opt.setName("reason").setDescription("Reason for warning.").setRequired(true)))
+            .addAttachmentOption(opt => opt.setName("attachment").setDescription("Attach image").setRequired(true))
         .addSubcommand(sub => sub.setName("warn-info")
             .setDescription("Get Warn info on a user")
             .addUserOption(opt => opt.setName("user").setDescription("User you want to find warn info for.").setRequired(true))),
@@ -44,6 +45,8 @@ module.exports = {
 
                 const user = options.getUser("user");
                 const reason = options.getString("reason") || `No reason provided`;
+                const rawFile = options.getAttachment("attachment").url;
+                const file = new AttachmentBuilder(rawFile, 'attached.png');
                 const findUser = guild.members.cache.get(user.id);
                 const findMember = guild.members.cache.get(member.id);
 
@@ -71,9 +74,13 @@ module.exports = {
                             .setColor(embedColor)
                             .setTitle("Warning!")
                             .setDescription(`${user} has been warned by ${member} for \`${reason}\`. This is their ${data.WarnAmount} warning.`)
+                            .setImage('attachment://attached.png')
                             .setFooter({ text: "Warn by Bun Bot" })
                             .setTimestamp()
                     ],
+                    files: [
+                        file
+                    ]
                 });
 
                 if (data.WarnAmount === 4) {
