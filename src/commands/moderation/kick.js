@@ -1,4 +1,4 @@
-const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require("discord.js");
+const { Client, ChatInputCommandInteraction, SlashCommandBuilder, PermissionFlagsBits, AttachmentBuilder, EmbedBuilder } = require("discord.js");
 const KickChannelDB = require("../../schemas/kickChannelDB");
 const warnDB = require("../../schemas/warnDB");
 const charactersDB = require("../../schemas/charactersDB");
@@ -13,7 +13,8 @@ module.exports = {
         .setDescription("Kick a member.")
         .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
             .addUserOption(opt => opt.setName("user").setDescription("User you want to kick.").setRequired(true))
-            .addStringOption(opt => opt.setName("reason").setDescription("Reason for kick.").setRequired(true)),
+            .addStringOption(opt => opt.setName("reason").setDescription("Reason for kick.").setRequired(true))
+            .addAttachmentOption(opt => opt.setName("attachment").setDescription("Attach image").setRequired(true)),
 
     /**
      * 
@@ -34,6 +35,7 @@ module.exports = {
 
         const user = options.getUser("user");
         const reason = options.getString("reason") || `No reason provided`;
+        const file = new AttachmentBuilder(`${options.getAttachment("attachment")}`);
         const findUser = guild.members.cache.get(user.id);
         const findMember = guild.members.cache.get(member.id);
 
@@ -58,6 +60,9 @@ module.exports = {
                     .setFooter({ text: "Kick by Bun Bot" })
                     .setTimestamp()
             ],
+            files: [
+                file
+            ]
         });
 
         findUser.kick({ reason: reason });
