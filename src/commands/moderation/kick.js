@@ -35,7 +35,8 @@ module.exports = {
 
         const user = options.getUser("user");
         const reason = options.getString("reason") || `No reason provided`;
-        const file = new AttachmentBuilder(`${options.getAttachment("attachment")}`);
+        const rawFile = options.getAttachment("attachment");
+        const file = new AttachmentBuilder(rawFile, 'attached.png');
         const findUser = guild.members.cache.get(user.id);
         const findMember = guild.members.cache.get(member.id);
 
@@ -57,6 +58,7 @@ module.exports = {
                     .setColor(embedColor)
                     .setTitle("Kicked!")
                     .setDescription(`${user} has been kicked by ${member} for \`${reason}\``)
+                    .setImage('attachment://attached.png')
                     .setFooter({ text: "Kick by Bun Bot" })
                     .setTimestamp()
             ],
