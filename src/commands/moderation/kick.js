@@ -35,7 +35,7 @@ module.exports = {
 
         const user = options.getUser("user");
         const reason = options.getString("reason") || `No reason provided`;
-        const rawFile = options.getAttachment("attachment");
+        const rawFile = options.getAttachment("attachment").url;
         const file = new AttachmentBuilder(rawFile, 'attached.png');
         const findUser = guild.members.cache.get(user.id);
         const findMember = guild.members.cache.get(member.id);
