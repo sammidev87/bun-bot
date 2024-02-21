@@ -14,7 +14,11 @@ module.exports = {
         .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
             .addUserOption(opt => opt.setName("user").setDescription("User you want to kick.").setRequired(true))
             .addStringOption(opt => opt.setName("reason").setDescription("Reason for kick.").setRequired(true))
-            .addAttachmentOption(opt => opt.setName("attachment").setDescription("Attach image").setRequired(true)),
+            .addAttachmentOption(opt => opt.setName("attachment").setDescription("Attach image").setRequired(true))
+            .addAttachmentOption(opt => opt.setName("attachment2").setDescription("Attach image2").setRequired(false))
+            .addAttachmentOption(opt => opt.setName("attachment3").setDescription("Attach image3").setRequired(false))
+            .addAttachmentOption(opt => opt.setName("attachment4").setDescription("Attach image4").setRequired(false))
+            .addAttachmentOption(opt => opt.setName("attachment5").setDescription("Attach image5").setRequired(false)),
 
     /**
      * 
@@ -36,7 +40,26 @@ module.exports = {
         const user = options.getUser("user");
         const reason = options.getString("reason") || `No reason provided`;
         const rawFile = options.getAttachment("attachment").url;
-        const file = new AttachmentBuilder(rawFile, 'attached.png');
+        const rawFile2 = options.getAttachment("attachment2") || 'none';
+                const rawFile3 = options.getAttachment("attachment3") || 'none';
+                const rawFile4 = options.getAttachment("attachment4") || 'none';
+                const rawFile5 = options.getAttachment("attachment5") || 'none';
+                const rawFiles = [
+                    rawFile,
+                    rawFile2,
+                    rawFile3,
+                    rawFile4,
+                    rawFile5
+                ];
+                const files = [];
+                for (const file of rawFiles) {
+                    if (file !== "none") {
+                        const attachment = new AttachmentBuilder()
+                            .setName(`attachment${file}`)
+                            .attachment(file)
+                        files.push(attachment);
+                    }
+                }
         const findUser = guild.members.cache.get(user.id);
         const findMember = guild.members.cache.get(member.id);
 
@@ -58,13 +81,10 @@ module.exports = {
                     .setColor(embedColor)
                     .setTitle("Kicked!")
                     .setDescription(`${user} has been kicked by ${member} for \`${reason}\``)
-                    .setImage('attachment://attached.png')
                     .setFooter({ text: "Kick by Bun Bot" })
                     .setTimestamp()
             ],
-            files: [
-                file
-            ]
+            files: files
         });
 
         findUser.kick({ reason: reason });
