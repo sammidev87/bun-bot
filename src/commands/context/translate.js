@@ -14,8 +14,8 @@ module.exports = {
      */
     async execute(interaction, client) {
 
-        const { color, guild } = client;
-        const { targetId, channel } = interaction;
+        const { color } = client;
+        const { targetId, channel, guild } = interaction;
         const query = await channel.messages.fetch({ message: targetId });
         const content = query.content;
         const translation = await translate(query, { to: "en" });
