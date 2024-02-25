@@ -64,9 +64,7 @@ module.exports = {
                 const files = [];
                 for (const file of rawFiles) {
                     if (file !== "none") {
-                        const attachment = new AttachmentBuilder()
-                            .setName(`attachment${file}`)
-                            .attachment(file)
+                        const attachment = new AttachmentBuilder(file)
                         files.push(attachment);
                     }
                 }
