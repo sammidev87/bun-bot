@@ -128,6 +128,25 @@ module.exports = {
                     ]
                 })
             )
+            .on('finishSong', (queue, song) =>
+                queue.textChannel.send({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setColor(color)
+                            .setTitle("Play Song")
+                            .setDescription(`▶️ | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${song.user}\n${status(queue)}\n\nCurrent queue:\n${queue.songs
+                                .map(
+                                    (song, id) =>
+                                        `**${id ? id : 'Playing'}**. ${song.name
+                                        } - \`${song.formattedDuration}\``,
+                                )
+                                .slice(0, 10)
+                                .join('\n')}`)
+                            .setFooter({ text: `Music by Bun Bot` })
+                            .setTimestamp()
+                    ]
+                })
+            )
             .on('error', (channel, e) => {
                 if (channel) channel.send({
                     embeds: [
@@ -147,7 +166,7 @@ module.exports = {
                         new EmbedBuilder()
                             .setColor(color)
                             .setTitle("Empty")
-                            .setDescription(`Voice channel is empty! Leaving the channel...`)
+                            .setDescription(`😔 | Voice channel is empty! Leaving the channel...`)
                             .setFooter({ text: `Music by Bun Bot` })
                             .setTimestamp()
                     ]
@@ -165,6 +184,29 @@ module.exports = {
                     ]
                 })
             )
-            .on('finish', queue => queue.textChannel.send('Finished!'));
+            .on('finish', queue => 
+                queue.textChannel.send({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setColor(color)
+                            .setTitle("Finished!")
+                            .setDescription(`✅ | Music has finished playing! Leaving the channel...`)
+                            .setFooter({ text: `Music by Bun Bot` })
+                            .setTimestamp()
+                    ]
+                })
+            )
+            .on('disconnect', queue => 
+                queue.textChannel.send({
+                    embeds: [
+                        new EmbedBuilder()
+                            .setColor(color)
+                            .setTitle("Disconnected!")
+                            .setDescription(`😔 | Bot has been disconnected! Leaving the channel...`)
+                            .setFooter({ text: `Music by Bun Bot` })
+                            .setTimestamp()
+                    ]
+                })
+            );
     }
 };
