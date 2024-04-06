@@ -78,7 +78,7 @@ module.exports = {
             await sleep(7200000);
 
             channel.send({
-                content: `<@${member}> <@&1042275026616983654>`,
+                content: `<@${member}>`,
                 embeds: [
                     new EmbedBuilder()
                         .setColor(embedColor)
